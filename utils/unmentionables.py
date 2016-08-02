@@ -7,22 +7,40 @@ from nltk.corpus import wordnet as wn
 
 __all__ = ('expand')
 
+DEFAULT_NUM_UNMENTIONABLES = 5
 
-def expand(word: str) -> set:
+
+def expand(word: str, num: int=DEFAULT_NUM_UNMENTIONABLES) -> set:
     """Expand a given word into a set of unmentionables.
 
     :param word: the keyword in taboo
+    :param num: number of unmentionables to generate
     :return: set of 5 unmentionable words
     """
     words = set()
     for synset in wn.synsets(word):
-        if len(words) >= 5:
+        if len(words) >= num:
             break
-        words |= {
-            lemma.name() for lemma in synset.lemmas()
-            if lemma.name() != word and _is_word(lemma)}
-    return set(list(words)[:5])  # inefficient
+        for hypernym in synset.hypernyms():
+            _add_all_lemmas(hypernym.lemmas(), words)
+        for hyponym in synset.hyponyms():
+            _add_all_lemmas(hyponym.lemmas(), words)
+    return set(list(words)[:num])  # inefficient
+
+
+def _add_all_lemmas(lemmas: list, words: set) -> None:
+    """Add all lemmas to the provided set of words.
+
+    :param lemmas: list of lemmas to add
+    :param words: set of words to amend
+    """
+    for lemma in lemmas:
+        if _is_word(lemma):
+            words.add(lemma.name())
+            for antonym in lemma.antonyms():
+                words.add(antonym.name())
+
 
 def _is_word(lemma) -> bool:
-    """Check if a lemma is a single word, as opposed to a phrase."""
+    """Check if a lemma_name is a single word, as opposed to a phrase."""
     return '_' not in lemma.name()
