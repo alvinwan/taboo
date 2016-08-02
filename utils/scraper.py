@@ -38,8 +38,6 @@ def scrape_noswearing(verbose: bool, force: bool) -> [str]:
     """Scrape noswearing.com for swear words."""
     words = list()
     for letter in string.ascii_lowercase:
-        if verbose:
-            print('Scraping', letter, '...')
         new_words = _get_words(letter, verbose, force)
         _save_to_file(letter, new_words)
         words.extend(new_words)
@@ -47,7 +45,7 @@ def scrape_noswearing(verbose: bool, force: bool) -> [str]:
 
 def read_lines(f):
     """Convert a file into a list of strings, without line breaks."""
-    return {line.strip() for line in open(f)}
+    return [line.strip() for line in open(f)]
 
 
 def _get_words(letter: str, verbose: bool, force: bool) -> [str]:
@@ -60,8 +58,12 @@ def _get_words(letter: str, verbose: bool, force: bool) -> [str]:
 
 def _read_from_url(letter: str, verbose: bool) -> [str]:
     """Read words from the web."""
+    if verbose:
+        print('Scraping', letter, '...')
     soup = BeautifulSoup(_url_open(letter, verbose), 'html.parser')
-    return [e.string for e in soup.find_all('table')[2].find_all('b')]
+    return [
+        e.string for e in soup.find_all('table')[2].find_all('b')
+        if e.string != 'More Slang Translators:']
 
 
 def _url_open(letter: str, verbose: bool) -> str:

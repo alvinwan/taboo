@@ -60,7 +60,7 @@ def _clean(src: str, dest: str, verbose: bool) -> None:
     :param verbose: whether or not to print statuses
     """
     with open(dest, 'w') as f:
-        for i, w in enumerate(clean(read_lines(src))):
+        for i, w in enumerate(clean(set(read_lines(src)))):
             f.write(w + '\n')
     print(i + 1, 'words written to', dest)
 

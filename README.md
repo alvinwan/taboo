@@ -31,5 +31,5 @@ Options:
 
 ## Sources
 
-- (Swear Words)[http://www.noswearing.com]
-- (10,000 Most Common Words)[https://github.com/first20hours/google-10000-english]
+- [Swear Words](http://www.noswearing.com)
+- [10,000 Most Common Words](https://github.com/first20hours/google-10000-english)
