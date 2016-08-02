@@ -28,6 +28,11 @@ def expand(word: str, num: int=DEFAULT_NUM_UNMENTIONABLES) -> set:
     return set(list(words)[:num])  # inefficient
 
 
+def have_same_root(string1: str, string2: str) -> bool:
+    """Check if two words share the same root"""
+    return wn.morphy(string1) == wn.morphy(string2)
+
+
 def _add_all_lemmas(lemmas: list, words: set) -> None:
     """Add all lemmas to the provided set of words.
 
