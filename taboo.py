@@ -1,25 +1,25 @@
 """CLI for the taboo utility.
 
 Usage:
-    taboo.py generate <src> [-v]
-    taboo.py clean <src> [-v]
-    taboo.py expand <word> [-v]
-    taboo.py unmentionables <src> [-v]
+    taboo.py generate <src> [options]
+    taboo.py clean <src> [options]
+    taboo.py expand <word> [options]
+    taboo.py unmentionables <src> [options]
+    taboo.py scrape (--noswearing | --dictionary) [--force] [options]
 
 Options:
     -h --help       Show this screen.
     -v --verbose   Print log messages and status updates
 """
 
-from utils.clean import clean
-from utils.unmentionables import expand, NUM_UNMENTIONABLES
+from constants import TARGET_DIR
+from constants import CLEANED_FILE_NAME
+from constants import OUTPUT_FILE_NAME
 from docopt import docopt
-
-import os
-
-TARGET_DIR = 'out'
-CLEANED_FILE_NAME = os.path.join(TARGET_DIR, 'cleaned.txt')
-OUTPUT_FILE_NAME = os.path.join(TARGET_DIR, 'output.txt')
+from utils.clean import clean
+from utils.unmentionables import expand
+from utils.scraper import scrape
+from utils.scraper import read_lines
 
 
 def main(arguments: dict):
@@ -48,6 +48,8 @@ def main(arguments: dict):
             src=arguments['<src>'],
             dest=OUTPUT_FILE_NAME,
             verbose=arguments['--verbose'])
+    elif arguments['scrape']:
+        _scrape(arguments)
 
 
 def _clean(src: str, dest: str, verbose: bool) -> None:
@@ -55,36 +57,47 @@ def _clean(src: str, dest: str, verbose: bool) -> None:
 
     :param from: the source file to read from
     :param to: the target file to write to
+    :param verbose: whether or not to print statuses
     """
-    words_written = 0
     with open(dest, 'w') as f:
-        for w in clean(_read_lines(src)):
-            words_written += 1
+        for i, w in enumerate(clean(read_lines(src))):
             f.write(w + '\n')
-    print(words_written, 'words written to', dest)
+    print(i + 1, 'words written to', dest)
 
 
 def _unmentionables(src: str, dest: str, verbose: bool) -> None:
     """Generate unmentionables for the provided file of words.
 
+    Prints the total number of words written, and in verbose mode, prints a
+    status for each word written.
+
     :param from: the source file to read from
     :param to: the target file to write to
+    :param verbose: whether or not print statuses
     """
-    words_written = 0
     with open(dest, 'w') as f:
-        for n, w in enumerate(_read_lines(src)):
-            if verbose:
-                print('Word {n}: {word}'.format(n=n, word=w))
+        for n, w in enumerate(read_lines(src)):
             expanded_set = expand(w)
-            words_written += 1
+            if verbose:
+                print('Word {n}: {word} ({num_words})'.format(
+                    n=n,
+                    word=w,
+                    num_words=len(expanded_set)))
             f.write('{word} | {unmentionables}\n'.format(
                 word=w,
                 unmentionables=' '.join(expanded_set)))
-    print(words_written, 'words written to', dest)
+    print(n + 1, 'words written to', dest)
 
 
-def _read_lines(f):
-    return {line.strip() for line in open(f)}
+def _scrape(arguments: dict):
+    """Scrape the provided target.
+
+    :param target: the name of the scraper to invoke
+    """
+    verbose = arguments['--verbose']
+    force = arguments['--force']
+    if arguments['--noswearing']:
+        scrape('noswearing', verbose, force)
 
 
 if __name__ == '__main__':

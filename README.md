@@ -28,3 +28,8 @@ Options:
     -h --help       Show this screen.
     -v --verbose   Print log messages and status updates
 ```
+
+## Sources
+
+- (Swear Words)[http://www.noswearing.com]
+- (10,000 Most Common Words)[https://github.com/first20hours/google-10000-english]
