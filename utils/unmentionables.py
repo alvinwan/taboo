@@ -5,6 +5,8 @@ vector sums via word2vec.
 """
 from nltk.corpus import wordnet as wn
 from nltk.metrics.distance import edit_distance
+from utils.scraper import read_lines
+from constants import SWEARWORDS_FILE_NAME
 
 __all__ = ('expand')
 
@@ -83,6 +85,8 @@ def _add_lemma(words: set, lemma) -> None:
 # FILTERING UNMENTIONABLES #
 ############################
 
+swear_words = read_lines(SWEARWORDS_FILE_NAME)
+
 
 def filter_is_word(words: set, lemma) -> bool:
     """Keep only words."""
@@ -105,7 +109,16 @@ def filter_similar_spellings(words: set, lemma) -> bool:
     return True
 
 
-__filters = (filter_is_word, filter_same_roots, filter_similar_spellings)
+def filter_swear_words(words: set, lemma) -> bool:
+    """Filter out swear words."""
+    return lemma.name() not in swear_words
+
+
+__filters = (
+    filter_is_word,
+    filter_same_roots,
+    filter_similar_spellings,
+    filter_swear_words)
 
 # Support methods for filtering unmentionables
 

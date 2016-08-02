@@ -3,23 +3,14 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from http.client import RemoteDisconnected
-from constants import SOURCE_DIR
+from constants import NO_SWEARING_URL_BY_LETTER
+from constants import NO_SWEARING_CACHED_FILENAME
 
 import string
 import os
 
 
 __all__ = ('scrape', 'scrape_noswearing', 'read_lines')
-
-"""
-:param letter: curse words beginning with this letter
-"""
-NO_SWEARING_URL_BY_LETTER = 'http://www.noswearing.com/dictionary/{letter}'
-
-"""
-:param letter: curse words beginning with this letter
-"""
-NO_SWEARING_CACHED_FILENAME = os.path.join(SOURCE_DIR, 'swearing-{letter}.txt')
 
 
 def scrape(target: str, verbose: bool, force: bool=False) -> [str]:
@@ -41,6 +32,8 @@ def scrape_noswearing(verbose: bool, force: bool) -> [str]:
         new_words = _get_words(letter, verbose, force)
         _save_to_file(letter, new_words)
         words.extend(new_words)
+    _save_to_file('all', words)
+    return words
 
 
 def read_lines(f):

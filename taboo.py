@@ -1,4 +1,6 @@
-"""CLI for the taboo utility.
+"""Command-line interface for the Taboo utility.
+
+This utility includes generation scripts and related subprocesses.
 
 Usage:
     taboo.py generate <src> [options]
