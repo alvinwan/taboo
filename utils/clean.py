@@ -15,4 +15,4 @@ def clean(words: set) -> set:
     :return: filtered set of words
     """
     blacklist = stopwords.words('english')
-    return {w for w in words if w not in blacklist}
+    return {w for w in words if w not in blacklist and len(w) > 2}

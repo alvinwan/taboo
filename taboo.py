@@ -12,7 +12,7 @@ Options:
 """
 
 from utils.clean import clean
-from utils.unmentionables import expand
+from utils.unmentionables import expand, NUM_UNMENTIONABLES
 from docopt import docopt
 
 import os
@@ -56,9 +56,12 @@ def _clean(src: str, dest: str, verbose: bool) -> None:
     :param from: the source file to read from
     :param to: the target file to write to
     """
+    words_written = 0
     with open(dest, 'w') as f:
         for w in clean(_read_lines(src)):
+            words_written += 1
             f.write(w + '\n')
+    print(words_written, 'words written to', dest)
 
 
 def _unmentionables(src: str, dest: str, verbose: bool) -> None:
@@ -67,13 +70,17 @@ def _unmentionables(src: str, dest: str, verbose: bool) -> None:
     :param from: the source file to read from
     :param to: the target file to write to
     """
+    words_written = 0
     with open(dest, 'w') as f:
         for n, w in enumerate(_read_lines(src)):
             if verbose:
                 print('Word {n}: {word}'.format(n=n, word=w))
+            expanded_set = expand(w)
+            words_written += 1
             f.write('{word} | {unmentionables}\n'.format(
                 word=w,
-                unmentionables=' '.join(expand(w))))
+                unmentionables=' '.join(expanded_set)))
+    print(words_written, 'words written to', dest)
 
 
 def _read_lines(f):
