@@ -1,0 +1,40 @@
+{
+  "name": "statics",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.12.10",
+    "connect-history-api-fallback": "^1.2.0",
+    "del": "^1.2.1",
+    "fs": "0.0.2",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-cache": "^0.4.5",
+    "gulp-concat": "^2.6.0",
+    "gulp-data": "^1.2.1",
+    "gulp-if": "^2.0.1",
+    "gulp-imagemin": "^3.0.1",
+    "gulp-jsoncombine": "^1.0.3",
+    "gulp-markdown": "^1.2.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-prettify": "^0.4.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.1",
+    "gulp-twig": "^0.5.0",
+    "gulp-uglify": "^1.5.3",
+    "gulp-useref": "^3.1.0",
+    "marked": "^0.3.5",
+    "path": "^0.12.7",
+    "run-sequence": "^1.2.1"
+  },
+  "dependencies": {
+    "twig-markdown": "^0.1.2"
+  }
+}
