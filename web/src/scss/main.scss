@@ -3,12 +3,35 @@
   font-family:'Lora';
 }
 
+html, body {
+  padding:0;
+  margin:0;
+}
+
+header, main, footer {
+  width:100%;
+}
+
+a {
+  text-decoration:none;
+  color:inherit;
+}
+
+a:hover {
+  text-decoration:none;
+}
+
 li {
   list-style:none;
 }
 
 h1, h2, h3 {
   font-weight:lighter;
+}
+
+header {
+  text-align:center;
+  padding:1em 0;
 }
 
 .card-container {
@@ -19,22 +42,78 @@ h1, h2, h3 {
   display:inline-block;
 
   .word {
-    font-size:6em;
+    font-size:5em;
     margin:0;
   }
 
-  .unmentionable {
-    font-size:2em;
-    line-height:150%;
-
-    .taboo-bar {
-      height:0.1em;
-      width:120%;
-      position:absolute;
-      left:-10%;
-      top:50%;
-      background-color:#eee;
-      z-index:-1;
-    }
+  ul {
+    padding:0;
   }
+
+  .unmentionable {
+    font-size:1.5em;
+    line-height:150%;
+  }
+
+  .unmentionable.large {
+    font-size:3em;
+  }
+}
+
+.taboo-bar {
+  height:0.1em;
+  width:120%;
+  position:absolute;
+  left:-10%;
+  top:50%;
+  background-color:#eee;
+  z-index:-1;
+}
+
+.taboo-bar.dark {
+  background-color:#666;
+}
+
+.icon {
+  display:inline-block;
+
+  span {
+    display:inherit;
+  }
+}
+
+.action {
+  padding:2.5em 3.5em;
+  display:inline-block;
+  line-height:75%;
+  cursor:pointer;
+}
+
+.correct:hover {
+  color:#690;
+}
+
+.incorrect:hover {
+  color:#c00;
+}
+
+.pass:hover {
+  color:#c90;
+}
+
+.icon-pass, .icon-incorrect, .icon-correct {
+  font-family:'Raleway';
+  font-weight:100;
+  font-size:3em;
+  text-align:center;
+}
+
+footer {
+  margin-top:1em;
+  border-top:1px solid #eee;
+  color:#999;
+  text-align:center;
+  padding:2em 0;
+  text-transform:uppercase;
+  font-size:0.8em;
 }

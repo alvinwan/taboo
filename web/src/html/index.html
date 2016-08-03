@@ -1,7 +1,28 @@
 {% extends "templates/main.html" %}
 
 {% block body %}
-<a href="game.html">Start Game</a>
-<a href="settings.html">Settings</a>
-<a href="howtoplay.html">How to Play</a>
+<main class="card-container">
+  <div class="card">
+    <ul>
+      <li class="unmentionable large">
+        <span class="content">
+          <span class="taboo-bar"></span>
+          <a href="game.html">Start Game</a>
+        </span>
+      </li>
+      <li class="unmentionable large">
+        <span class="content">
+          <span class="taboo-bar"></span>
+          <a href="settings.html">Settings</a>
+        </span>
+      </li>
+      <li class="unmentionable large">
+        <span class="content">
+          <span class="taboo-bar"></span>
+          <a href="howtoplay.html">How to Play</a>
+        </span>
+      </li>
+    </ul>
+  </div>
+</main>
 {% endblock %}
