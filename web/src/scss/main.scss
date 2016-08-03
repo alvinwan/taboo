@@ -122,11 +122,27 @@ header {
 }
 
 footer {
-  margin-top:1em;
+  margin-top:3em;
   border-top:1px solid #eee;
   color:#999;
   text-align:center;
   padding:2em 0;
   text-transform:uppercase;
   font-size:0.8em;
+}
+
+.title {
+  font-size:3em;
+}
+
+.copy {
+  display:inline-block;
+  max-width:60em;
+  width: 50%;
+  line-height:200%;
+  font-size:1.5em;
+}
+
+.icon-back {
+  font-size:2em;
 }
