@@ -1,0 +1,40 @@
+* {
+  position:relative;
+  font-family:'Lora';
+}
+
+li {
+  list-style:none;
+}
+
+h1, h2, h3 {
+  font-weight:lighter;
+}
+
+.card-container {
+  text-align:center;
+}
+
+.card {
+  display:inline-block;
+
+  .word {
+    font-size:6em;
+    margin:0;
+  }
+
+  .unmentionable {
+    font-size:2em;
+    line-height:150%;
+
+    .taboo-bar {
+      height:0.1em;
+      width:120%;
+      position:absolute;
+      left:-10%;
+      top:50%;
+      background-color:#eee;
+      z-index:-1;
+    }
+  }
+}
