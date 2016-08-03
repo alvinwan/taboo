@@ -3,8 +3,8 @@
 Taboo for web, iOS, and android with auto-generated cards For documentation on
 and installation instructions for specific modules, see the respective READMEs.
 
-- [Taboo CLI](http://github.com/alvinwan/tree/master/cli)
-- [Taboo Web](http://github.com/alvinwan/tree/master/web)
+- [Taboo CLI](https://github.com/alvinwan/taboo/tree/master/cli)
+- [Taboo Web](https://github.com/alvinwan/taboo/tree/master/web)
 - *Taboo Android* (coming soon)
 - *Taboo iOS* (coming soon)
 
