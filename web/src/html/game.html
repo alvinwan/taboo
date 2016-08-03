@@ -1,40 +1,21 @@
 {% extends "templates/main.html" %}
 
 {% block body %}
+<script>launch_game_on_init = true;</script>
 <main class="card-container">
   <div class="card">
-    <h2 class="word">application</h2>
+    <h2 class="keyword">application</h2>
     <ul>
-      <li class="unmentionable">
+      {% set i = 0 %}
+      {% for word in ['use', 'utilization', 'exercise', 'employment', 'request'] %}
+      {% set i = i + 1 %}
+      <li class="unmentionable" no="{{ i }}">
         <span class="content">
           <span class="taboo-bar"></span>
-          use
+          <span class="word">{{ word }}</span>
         </span>
       </li>
-      <li class="unmentionable">
-        <span class="content">
-          <span class="taboo-bar"></span>
-          utilization
-        </span>
-      </li>
-      <li class="unmentionable">
-        <span class="content">
-          <span class="taboo-bar"></span>
-          exercise
-        </span>
-      </li>
-      <li class="unmentionable">
-        <span class="content">
-          <span class="taboo-bar"></span>
-          employment
-        </span>
-      </li>
-      <li class="unmentionable">
-        <span class="content">
-          <span class="taboo-bar"></span>
-          request
-        </span>
-      </li>
+      {% endfor %}
     </ul>
     <div class="incorrect action">
       <p><span class="icon icon-incorrect">
