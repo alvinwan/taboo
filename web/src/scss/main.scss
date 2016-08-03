@@ -146,3 +146,41 @@ footer {
 .icon-back {
   font-size:2em;
 }
+
+.settings {
+
+  .card {
+    width:100%;
+  }
+
+  .setting_field {
+    width:100%;
+    font-size:1.25em;
+    margin:0.5em 0;
+    padding:0.5em;
+    outline:none;
+    border:1px solid #eee;
+  }
+
+  .setting_save {
+    -webkit-appearance:none;
+    box-shadow:none;
+    outline:none;
+    border:none;
+    text-transform:uppercase;
+    padding:1.5em 2em;
+    letter-spacing:0.25em;
+    background-color:transparent;
+    border:2px solid #333;
+    color:#333;
+    cursor:pointer;
+    position:absolute;
+    right:0.5em;
+    bottom:2em;
+  }
+
+  .setting_save:hover {
+    background-color:#333;
+    color:#FFF;
+  }
+}
