@@ -12,7 +12,7 @@ header, main, footer {
   width:100%;
 }
 
-.taboo-bar {
+.taboo-bar,.action .icon {
   transition:         0.2s ease;
   -o-transition:      0.2s ease;
   -moz-transition:    0.2s ease;
@@ -26,10 +26,6 @@ a {
 
 a:hover {
   text-decoration:none;
-
-  .taboo-bar {
-    background-color:#333;
-  }
 }
 
 li {
@@ -69,20 +65,22 @@ header {
   .unmentionable.large {
     font-size:3em;
   }
-
-  .unmentionable:hover .taboo-bar {
-    background-color:#333;
-  }
 }
 
 .taboo-bar {
   height:0.1em;
-  width:120%;
+  width:110%;
   position:absolute;
-  left:-10%;
+  left:-5%;
   top:50%;
   background-color:#eee;
   z-index:-1;
+}
+
+.unmentionable:hover .taboo-bar, a:hover .taboo-bar,.action:hover .taboo-bar {
+  background-color:#333;
+  width:120%;
+  left:-10%;
 }
 
 .taboo-bar.dark {
