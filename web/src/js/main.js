@@ -3,6 +3,19 @@ var game;
 
 var MAX_PASSES = 3;
 
+// http://stackoverflow.com/a/4673436/4855984
+if (!String.prototype.format) {
+  String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function(match, number) {
+      return typeof args[number] != 'undefined'
+        ? args[number]
+        : match
+      ;
+    });
+  };
+}
+
 $(document).ready(function() {
 
   /**
@@ -110,10 +123,10 @@ $(document).ready(function() {
     }
 
     function updateCardUI() {
-      $('.keyword').html(this.card.word);
-      for (var i = 0; i < this.card.unmentionables.size(); i++) {
-        $('.unmentionable[no="%d"] .word' % i)
-          .html(this.card.unmentionables[i]);
+      $('.keyword').html(card.word);
+      for (var i = 0; i < card.unmentionables.length; i++) {
+        $('.unmentionable-{0} .word'.format(i))
+          .html(card.unmentionables[i]);
       }
     }
   }
@@ -127,6 +140,7 @@ $(document).ready(function() {
 
     var currentTeam = 1;
     var points = new Points();
+    var round;
 
     this.start = function() {
       currentTeam = 1;
@@ -140,9 +154,13 @@ $(document).ready(function() {
       createRoundAndStart(currentTeam);
     }
 
+    this.getRound = function() {
+      return round;
+    }
+
     function createRoundAndStart(team) {
-      this.round = new Round(team);
-      this.round.start();
+      round = new Round(team);
+      round.start();
     }
   }
 

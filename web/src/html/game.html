@@ -8,27 +8,27 @@
     <ul>
       {% set i = 0 %}
       {% for word in ['use', 'utilization', 'exercise', 'employment', 'request'] %}
-      {% set i = i + 1 %}
-      <li class="unmentionable" no="{{ i }}">
+      <li class="unmentionable unmentionable-{{ i }}">
         <span class="content">
           <span class="taboo-bar"></span>
           <span class="word">{{ word }}</span>
         </span>
       </li>
+      {% set i = i + 1 %}
       {% endfor %}
     </ul>
-    <div class="incorrect action">
+    <div class="incorrect action" onclick="game.getRound().incorrect();">
       <p><span class="icon icon-incorrect">
         <span class="taboo-bar"></span>
         X</span></p>
     </div>
     <div class="pass action">
-      <p><span class="icon icon-pass">
+      <p><span class="icon icon-pass" onclick="game.getRound().pass();">
         <span class="taboo-bar"></span>
         ?</span></p>
     </div>
     <div class="correct action">
-      <p><span class="icon icon-correct">
+      <p><span class="icon icon-correct" onclick="game.getRound().correct();">
         <span class="taboo-bar"></span>
         O</span></p>
     </div>
