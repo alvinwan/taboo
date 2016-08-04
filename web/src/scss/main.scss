@@ -184,3 +184,15 @@ footer {
     color:#FFF;
   }
 }
+
+.timer {
+  position:absolute;
+  bottom:-3.5em;
+  left:calc(100% - 25em);
+
+  .time {
+    font-size:25em;
+    color:#eee;
+    line-height:80%;
+  }
+}

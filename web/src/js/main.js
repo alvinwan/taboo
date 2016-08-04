@@ -62,7 +62,7 @@ $(document).ready(function() {
 
     function tick() {
       time++;
-      console.log(time);
+      $('.time').html(60-time);
     }
   }
 
