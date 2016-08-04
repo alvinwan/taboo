@@ -24,7 +24,7 @@ $(document).ready(function() {
     this.team1_name = 'team1';
     this.team2_name = 'team2';
     this.max_passes = 3;
-    this.round_duration_s = 60;
+    this.round_duration_s = 5;
   }
 
   /**
@@ -38,10 +38,11 @@ $(document).ready(function() {
   /**
    * Abstraction for a clock
    */
-  var Clock = function() {
+  var Clock = function(config) {
 
     var time = 0;
     var clock;
+    var onTickListener;
 
     this.start = function() {
       clock = setInterval(tick, 1000);
@@ -60,9 +61,14 @@ $(document).ready(function() {
       time = 0;
     }
 
+    this.setOnTickListener = function(listener) {
+      onTickListener = listener;
+    }
+
     function tick() {
       time++;
-      $('.time').html(60-time);
+      $('.time').html(config.round_duration_s-time);
+      onTickListener(time);
     }
   }
 
@@ -71,15 +77,22 @@ $(document).ready(function() {
    * correct, incorrect, or pass. This also handles the round timer, so it
    * processes pauses and resumes.
    */
-  var Round = function(team) {
+  var Round = function(team, config) {
 
+    var team = team;
     var points = new Points();
     var passes = 0;
-    var clock = new Clock();
+    var clock = new Clock(config);
     var card;
+    var onFinishListener;
 
     this.start = function() {
       clock.start();
+      clock.setOnTickListener(function(time) {
+        if (time >= config.round_duration_s) {
+          finishRound();
+        }
+      });
       next();
     }
 
@@ -94,12 +107,14 @@ $(document).ready(function() {
     }
 
     this.pass = function() {
-      if (this.passes < MAX_PASSES) {
+      if (passes < config.max_passes) {
         passes += 1;
         points.pass(team);
         next();
       } else {
-
+        alert("You have used {0} of {1} passes.".format(
+          passes,
+          config.max_passes));
       }
     }
 
@@ -109,6 +124,14 @@ $(document).ready(function() {
 
     this.resume = function() {
       clock.resume();
+    }
+
+    this.setOnFinishListener = function(listener) {
+      onFinishListener = listener;
+    }
+
+    this.getPoints = function() {
+      return points;
     }
 
     function next() {
@@ -123,11 +146,16 @@ $(document).ready(function() {
     }
 
     function updateCardUI() {
-      $('.keyword').html(card.word);
+      $('.game-element .keyword').html(card.word);
       for (var i = 0; i < card.unmentionables.length; i++) {
         $('.unmentionable-{0} .word'.format(i))
           .html(card.unmentionables[i]);
       }
+    }
+
+    function finishRound() {
+      clock.stop();
+      onFinishListener();
     }
   }
 
@@ -145,12 +173,11 @@ $(document).ready(function() {
     this.start = function() {
       currentTeam = 1;
       points = new Points();
-      createRoundAndStart();
+      createRoundAndStart(currentTeam);
     }
 
     this.nextRound = function() {
-      points.merge(this.round.points);
-      currentTeam = getOtherTeam(this.currentTeam);
+      currentTeam = getOtherTeam(currentTeam);
       createRoundAndStart(currentTeam);
     }
 
@@ -159,8 +186,20 @@ $(document).ready(function() {
     }
 
     function createRoundAndStart(team) {
-      round = new Round(team);
+      round = new Round(team, config);
+      round.setOnFinishListener(intermission);
+      $('.card.intermission-element').hide();
+      $('.card.game-element').show();
       round.start();
+    }
+
+    function intermission() {
+      points.merge(round.getPoints());
+      $('.card.intermission-element').show();
+      $('.card.game-element').hide();
+
+      $('.points-team1').html(points.get(0));
+      $('.points-team2').html(points.get(1));
     }
   }
 
@@ -177,18 +216,19 @@ $(document).ready(function() {
     }
 
     this.correct = function(team) {
-      this.tracker[team] += 1;
+      console.log(team);
+      this.tracker[team]++;
     }
 
     this.incorrect = function(team) {
-      this.tracker[getOtherTeam(team)] += 1;
+      this.tracker[getOtherTeam(team)]++;
     }
 
     this.pass = function(team) {}
 
     this.merge = function(points) {
       for (var team in this.tracker) {
-        this.tracker[team] += points[team];
+        this.tracker[team] += points.get(team);
       }
     }
   }

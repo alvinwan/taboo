@@ -3,10 +3,10 @@
 {% block body %}
 <script>launch_game_on_init = true;</script>
 <main class="card-container">
-  <div class="timer">
+  <div class="timer game-element">
     <span class="time">60</span>
   </div>
-  <div class="card">
+  <div class="card game-element">
     <h2 class="keyword">application</h2>
     <ul>
       {% set i = 0 %}
@@ -34,6 +34,16 @@
       <p><span class="icon icon-correct" onclick="game.getRound().correct();">
         <span class="taboo-bar"></span>
         O</span></p>
+    </div>
+  </div>
+  <div class="card intermission-element">
+    <h2 class="keyword">Round Complete</h2>
+    <div class="copy">
+      <p>
+        Team 1 : <span class="points-team1"></span><br />
+        Team 2 : <span class="points-team2"></span><br />
+        <span class="next-round button">Team 2 Start</span>
+      </p>
     </div>
   </div>
 </main>
