@@ -1,8 +1,6 @@
 var launch_game_on_init = false;
 var game;
 
-var MAX_PASSES = 3;
-
 // http://stackoverflow.com/a/4673436/4855984
 if (!String.prototype.format) {
   String.prototype.format = function() {
@@ -23,7 +21,10 @@ $(document).ready(function() {
    * storage, to persist user settings, and handle the settings menu.
    */
   var Config = function() {
-
+    this.team1_name = 'team1';
+    this.team2_name = 'team2';
+    this.max_passes = 3;
+    this.round_duration_s = 60;
   }
 
   /**
@@ -135,7 +136,7 @@ $(document).ready(function() {
    * and generally maintaining the game's state. Processes round results and
    * updates game score.
    */
-  var Game = function() {
+  var Game = function(config) {
 
     var currentTeam = 1;
     var points = new Points();
@@ -199,8 +200,10 @@ $(document).ready(function() {
     return 1 - team;
   }
 
+  config = new Config();
+
   if (launch_game_on_init) {
-    game = new Game();
+    game = new Game(config);
     game.start();
   }
 });
