@@ -117,9 +117,8 @@ $(document).ready(function() {
 
     // TODO: actually get a new card
     function getNextCard() {
-      return new Card(
-        'application',
-        ['exercise', 'use', 'utilization', 'employment', 'request']);
+      data = words[Math.round(Math.random()*words.length)]
+      return new Card(data[0], data[1])
     }
 
     function updateCardUI() {
