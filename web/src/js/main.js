@@ -93,7 +93,7 @@ $(document).ready(function() {
     var onPauseListener;
 
     this.start = function() {
-      $('.card .team').html('Team {0}'.format(team));
+      $('.card .team').html('Team {0}'.format(team + 1));
       clock.start();
       clock.setOnTickListener(function(time) {
         if (time >= config.round_duration_s) {
