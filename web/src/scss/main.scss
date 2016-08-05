@@ -52,6 +52,13 @@ header {
 .card {
   display:inline-block;
 
+  .team {
+    text-transform:uppercase;
+    letter-spacing:1em;
+    color:#999;
+    margin:0 0 1em 0;
+  }
+
   .keyword {
     font-size:5em;
     margin:0;

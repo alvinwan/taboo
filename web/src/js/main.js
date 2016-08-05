@@ -24,7 +24,7 @@ $(document).ready(function() {
     this.team1_name = 'team1';
     this.team2_name = 'team2';
     this.max_passes = 3;
-    this.round_duration_s = 5;
+    this.round_duration_s = 60;
   }
 
   /**
