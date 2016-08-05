@@ -24,7 +24,7 @@ $(document).ready(function() {
     this.team1_name = 'team1';
     this.team2_name = 'team2';
     this.max_passes = 3;
-    this.round_duration_s = 5;
+    this.round_duration_s = 3;
   }
 
   /**
@@ -46,6 +46,7 @@ $(document).ready(function() {
 
     this.start = function() {
       clock = setInterval(tick, 1000);
+      updateTimeDisplay();
     }
 
     this.pause = function() {
@@ -67,8 +68,12 @@ $(document).ready(function() {
 
     function tick() {
       time++;
-      $('.time').html(config.round_duration_s-time);
+      updateTimeDisplay();
       onTickListener(time);
+    }
+
+    function updateTimeDisplay() {
+      $('.time').html(config.round_duration_s-time);
     }
   }
 
@@ -85,6 +90,7 @@ $(document).ready(function() {
     var clock = new Clock(config);
     var card;
     var onFinishListener;
+    var onPauseListener;
 
     this.start = function() {
       clock.start();
@@ -120,6 +126,9 @@ $(document).ready(function() {
 
     this.pause = function() {
       clock.pause();
+      if (onPauseListener) {
+        onPauseListener();
+      }
     }
 
     this.resume = function() {
@@ -128,6 +137,10 @@ $(document).ready(function() {
 
     this.setOnFinishListener = function(listener) {
       onFinishListener = listener;
+    }
+
+    this.setOnPauseListener = function(listener) {
+      onPauseListener = listener;
     }
 
     this.getPoints = function() {
@@ -139,7 +152,6 @@ $(document).ready(function() {
       updateCardUI();
     }
 
-    // TODO: actually get a new card
     function getNextCard() {
       data = words[Math.round(Math.random()*words.length)]
       return new Card(data[0], data[1])
@@ -155,7 +167,9 @@ $(document).ready(function() {
 
     function finishRound() {
       clock.stop();
-      onFinishListener();
+      if (onFinishListener) {
+        onFinishListener();
+      }
     }
   }
 
@@ -187,16 +201,35 @@ $(document).ready(function() {
 
     function createRoundAndStart(team) {
       round = new Round(team, config);
-      round.setOnFinishListener(intermission);
-      $('.card.intermission-element').hide();
-      $('.card.game-element').show();
+      round.setOnFinishListener(function() {
+        $('.intermission-action')
+          .on('click', game.nextRound)
+          .html('Team {0} Start'.format(currentTeam + 1));
+        intermission();
+      });
+      round.setOnPauseListener(function() {
+        $('.intermission-action')
+          .on('click', round.resume)
+          .html('Resume');
+        intermission();
+      })
+      $('.intermission-element').each(function() {
+        $(this).hide();
+      });
+      $('.game-element').each(function() {
+        $(this).show();
+      });
       round.start();
     }
 
     function intermission() {
       points.merge(round.getPoints());
-      $('.card.intermission-element').show();
-      $('.card.game-element').hide();
+      $('.intermission-element').each(function() {
+        $(this).show();
+      });
+      $('.game-element').each(function() {
+        $(this).hide();
+      });
 
       $('.points-team1').html(points.get(0));
       $('.points-team2').html(points.get(1));
@@ -216,7 +249,6 @@ $(document).ready(function() {
     }
 
     this.correct = function(team) {
-      console.log(team);
       this.tracker[team]++;
     }
 
