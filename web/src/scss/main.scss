@@ -12,11 +12,15 @@ header, main, footer {
   width:100%;
 }
 
-.taboo-bar,.action .icon {
+.taboo-bar,.action .icon,.alert {
   transition:         0.2s ease;
   -o-transition:      0.2s ease;
   -moz-transition:    0.2s ease;
   -webkit-transition: 0.2s ease;
+}
+
+.alert.s {
+  top:0;
 }
 
 a {
@@ -203,6 +207,17 @@ footer {
   }
 }
 
+.alert {
+  position:fixed;
+  top:-5.25em;
+  left:0;
+  width:100%;
+  background-color:#c90;
+  color:#FFF;
+  padding:2em 0;
+  text-align:center;
+  margin:0;
+}
 
 .button {
   display:inline-block;

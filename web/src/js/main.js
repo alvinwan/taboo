@@ -24,7 +24,7 @@ $(document).ready(function() {
     this.team1_name = 'team1';
     this.team2_name = 'team2';
     this.max_passes = 3;
-    this.round_duration_s = 3;
+    this.round_duration_s = 5;
   }
 
   /**
@@ -93,6 +93,7 @@ $(document).ready(function() {
     var onPauseListener;
 
     this.start = function() {
+      $('.card .team').html('Team {0}'.format(team));
       clock.start();
       clock.setOnTickListener(function(time) {
         if (time >= config.round_duration_s) {
@@ -118,7 +119,7 @@ $(document).ready(function() {
         points.pass(team);
         next();
       } else {
-        alert("You have used {0} of {1} passes.".format(
+        alert.open("You have used {0} of {1} passes.".format(
           passes,
           config.max_passes));
       }
@@ -180,12 +181,12 @@ $(document).ready(function() {
    */
   var Game = function(config) {
 
-    var currentTeam = 1;
+    var currentTeam = 0;
     var points = new Points();
     var round;
 
     this.start = function() {
-      currentTeam = 1;
+      currentTeam = 0;
       points = new Points();
       createRoundAndStart(currentTeam);
     }
@@ -202,15 +203,15 @@ $(document).ready(function() {
     function createRoundAndStart(team) {
       round = new Round(team, config);
       round.setOnFinishListener(function() {
-        $('.intermission-action')
-          .on('click', game.nextRound)
-          .html('Team {0} Start'.format(currentTeam + 1));
+        $('.intermission-start')
+          .show()
+          .html('Team {0} Start'.format(getOtherTeam(team) + 1));
+        $('.intermission-resume').hide();
         intermission();
       });
       round.setOnPauseListener(function() {
-        $('.intermission-action')
-          .on('click', round.resume)
-          .html('Resume');
+        $('.intermission-resume').show();
+        $('.intermission-start').hide()
         intermission();
       })
       $('.intermission-element').each(function() {
@@ -242,26 +243,48 @@ $(document).ready(function() {
    */
   var Points = function() {
 
-    this.tracker = {0: 0, 1: 0};
+    var tracker = {0: 0, 1: 0};
 
     this.get = function(team) {
-      return this.tracker[team];
+      return tracker[team];
     }
 
     this.correct = function(team) {
-      this.tracker[team]++;
+      tracker[team]++;
     }
 
     this.incorrect = function(team) {
-      this.tracker[getOtherTeam(team)]++;
+      tracker[getOtherTeam(team)]++;
     }
 
     this.pass = function(team) {}
 
     this.merge = function(points) {
-      for (var team in this.tracker) {
-        this.tracker[team] += points.get(team);
+      for (var team in tracker) {
+        tracker[team] += points.get(team);
       }
+    }
+  }
+
+  /**
+   * Handles alert at the top of the screen.
+   */
+  var Alert = function() {
+
+    var isActive = false;
+
+    this.open = function(message) {
+      if (!isActive) {
+        $('.alert').addClass('s');
+        $('.alert').html(message);
+        isActive = true;
+        setTimeout(alert.close, 3000);
+      }
+    }
+
+    this.close = function() {
+      $('.alert').removeClass('s');
+      isActive = false;
     }
   }
 
@@ -273,6 +296,7 @@ $(document).ready(function() {
   }
 
   config = new Config();
+  alert = new Alert();
 
   if (launch_game_on_init) {
     game = new Game(config);

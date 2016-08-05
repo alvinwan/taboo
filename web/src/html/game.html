@@ -2,11 +2,13 @@
 
 {% block body %}
 <script>launch_game_on_init = true;</script>
+<p class="alert">Alert content goes here</p>
 <main class="card-container">
   <div class="timer game-element">
     <span class="time">60</span>
   </div>
   <div class="card game-element">
+    <p class="team"></p>
     <h2 class="keyword">application</h2>
     <ul>
       {% set i = 0 %}
@@ -42,7 +44,8 @@
       <p>
         Team 1 : <span class="points-team1"></span><br />
         Team 2 : <span class="points-team2"></span><br />
-        <span class="intermission-action button"></span>
+        <span onclick="game.nextRound();" class="intermission-start button"></span>
+        <span onclick="game.getRound().resume();" class="intermission-resume button">Resume</span>
       </p>
     </div>
   </div>
