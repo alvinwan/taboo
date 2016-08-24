@@ -43,10 +43,7 @@ function getFile(path) {
  */
 
 // Static Server + watching scss/html files
-gulp.task('serve', [
-  'js',
-  'sass',
-  'html'], function() {
+gulp.task('serve', ['preview'], function() {
 
   browserSync.init({
     server: "./app",
@@ -57,6 +54,10 @@ gulp.task('serve', [
   gulp.watch("src/js/**/*.js", ['js']);
   gulp.watch(["src/html/**/*.html", "src/data/*.json"], ['html']).on('change', browserSync.reload);
 });
+
+gulp.task('preview', ['js',
+  'sass',
+  'html']);
 
 // Compile sass into minified CSS & auto-inject into browsers
 gulp.task('sass', function() {

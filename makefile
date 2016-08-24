@@ -7,6 +7,7 @@ deploy web:
 
 # Pushes the web/app folder to gh-pages to update the staging webpage.
 update:
-	rm -rf published
-	gulp preview
+	rm -rf web/app
+	cd web && \
+	gulp preview && \
 	git push origin `git subtree split --prefix web/app master`:gh-pages --force
