@@ -9,5 +9,5 @@ deploy web:
 update:
 	rm -rf web/app
 	cd web && \
-	gulp preview && \
+	gulp preview
 	git push origin `git subtree split --prefix web/app master`:gh-pages --force
