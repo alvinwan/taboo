@@ -1,0 +1,72 @@
+<html>
+
+  <head>
+    <title>Taboo</title>
+    <link href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Raleway:100" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    <link href="css/main.min.css" rel="stylesheet">
+    <script src="js/script.min.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <h1 class="title">
+    <a href="index.html">
+      <span>
+        <span class="taboo-bar dark"></span>Taboo
+      </span>
+    </a>
+  </h1> </header>
+    <script>
+      launch_game_on_init = true;
+    </script>
+    <p class="alert">Alert content goes here</p>
+    <main class="card-container">
+      <div class="timer game-element"> <span class="time">60</span> </div>
+      <div class="card game-element">
+        <p class="team"></p>
+        <h2 class="keyword">application</h2>
+        <ul>
+          <li class="unmentionable unmentionable-0"> <span class="content">
+          <span class="taboo-bar"></span> <span class="word">use</span> </span>
+          </li>
+          <li class="unmentionable unmentionable-1"> <span class="content">
+          <span class="taboo-bar"></span> <span class="word">utilization</span> </span>
+          </li>
+          <li class="unmentionable unmentionable-2"> <span class="content">
+          <span class="taboo-bar"></span> <span class="word">exercise</span> </span>
+          </li>
+          <li class="unmentionable unmentionable-3"> <span class="content">
+          <span class="taboo-bar"></span> <span class="word">employment</span> </span>
+          </li>
+          <li class="unmentionable unmentionable-4"> <span class="content">
+          <span class="taboo-bar"></span> <span class="word">request</span> </span>
+          </li>
+        </ul>
+        <div class="incorrect action" onclick="game.getRound().incorrect();">
+          <p><span class="icon icon-incorrect">
+        <span class="taboo-bar"></span> X</span>
+          </p>
+        </div>
+        <div class="pass action">
+          <p><span class="icon icon-pass" onclick="game.getRound().pass();">
+        <span class="taboo-bar"></span> ?</span>
+          </p>
+        </div>
+        <div class="correct action">
+          <p><span class="icon icon-correct" onclick="game.getRound().correct();">
+        <span class="taboo-bar"></span> O</span>
+          </p>
+        </div>
+      </div>
+      <div class="card intermission-element">
+        <h2 class="keyword">Round Complete</h2>
+        <div class="copy">
+          <p> Team 1 : <span class="points-team1"></span><br /> Team 2 : <span class="points-team2"></span><br /> <span onclick="game.nextRound();" class="intermission-start button"></span> <span onclick="game.getRound().resume();" class="intermission-resume button">Resume</span>            </p>
+        </div>
+      </div>
+    </main>
+    <footer> <a href="http://github.com/alvinwan/taboo">Source Code<a/>
+</footer>
+  </body>
+</html>
